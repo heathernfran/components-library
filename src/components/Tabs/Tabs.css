@@ -1,0 +1,8 @@
+.button {
+  color: purple;
+}
+
+.button-active {
+  background-color: purple;
+  color: white;
+}
