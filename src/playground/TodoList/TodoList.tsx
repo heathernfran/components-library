@@ -1,11 +1,11 @@
 import { useReducer, useState } from "react";
 import { TodoForm } from "./components/TodoForm";
 import { TodoItem } from "./components/TodoItem";
-import { todosReducer } from "./reducer";
+import { initialState, todosReducer } from "./reducer";
 import type { TodoItem as TodoItemType } from "./types";
 
 export function TodoList() {
-  const [todos, dispatchTodos] = useReducer(todosReducer, [] as TodoItemType[]);
+  const [{ allTodos }, dispatchTodos] = useReducer(todosReducer, initialState);
   const [newTodo, setNewTodo] = useState("");
 
   let debouncedNewTodo: NodeJS.Timeout;
@@ -43,9 +43,9 @@ export function TodoList() {
         handleChangeNewTodo={handleChangeNewTodo}
         newTodo={newTodo}
       />
-      {todos.length ? (
+      {allTodos.length ? (
         <ul>
-          {todos.map((todo) => (
+          {allTodos.map((todo) => (
             <TodoItem
               key={todo.id}
               handleCompletedTodo={handleCompletedTodo}

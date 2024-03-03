@@ -4,6 +4,10 @@ export interface TodoItem {
   description: string;
 }
 
+export type TodosState = {
+  allTodos: TodoItem[];
+};
+
 interface AddTodoAction {
   type: "ADD_TODO";
   newTodo: string;
