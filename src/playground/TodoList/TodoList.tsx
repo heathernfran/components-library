@@ -2,10 +2,11 @@ import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { TodoForm } from "./components/TodoForm";
 import { TodoItem } from "./components/TodoItem";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import type { TodoItem as TodoItemType } from "./types";
 
 export function TodoList() {
-  const [todos, setTodos] = useState<TodoItemType[]>([]);
+  const [todos, setTodos] = useLocalStorage<TodoItemType[]>("todos", []);
   const [newTodo, setNewTodo] = useState("");
 
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,9 +27,17 @@ export function TodoList() {
   };
 
   const handleCompletedTodo = (completedTodo: TodoItemType) => {
-    const remainingTodos = todos.filter((todo) => todo.id !== completedTodo.id);
-
-    setTodos([...remainingTodos, completedTodo]);
+    if (completedTodo.isComplete) {
+      const remainingTodos = todos.filter(
+        (todo) => todo.id !== completedTodo.id
+      );
+      setTodos([...remainingTodos, completedTodo]);
+    } else {
+      const allTodos = todos.map((todo) =>
+        todo.id === completedTodo.id ? completedTodo : todo
+      );
+      setTodos(allTodos);
+    }
   };
 
   return (

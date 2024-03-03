@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { TodoItem as TodoItemType } from "./types";
+import type { TodoItem as TodoItemType } from "./../types";
 
 interface Props {
   handleCompletedTodo: (todo: TodoItemType) => void;
@@ -14,20 +13,15 @@ export function TodoItem({
   isComplete,
   description,
 }: Props) {
-  const [updatedComplete, setUpdatedComplete] = useState(isComplete);
-
-  const handleUpdatedComplete = () => {
-    setUpdatedComplete(!updatedComplete);
-    if (!updatedComplete) {
-      handleCompletedTodo({ id, isComplete, description });
-    }
+  const handleChangeIsComplete = () => {
+    handleCompletedTodo({ id, isComplete: !isComplete, description });
   };
 
   return (
     <li>
       <input
-        checked={updatedComplete}
-        onChange={handleUpdatedComplete}
+        checked={isComplete}
+        onChange={handleChangeIsComplete}
         type="checkbox"
       />
       <span>{description}</span>
