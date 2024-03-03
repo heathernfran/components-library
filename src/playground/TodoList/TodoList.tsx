@@ -8,6 +8,8 @@ export function TodoList() {
   const [todos, dispatchTodos] = useReducer(todosReducer, [] as TodoItemType[]);
   const [newTodo, setNewTodo] = useState("");
 
+  let debouncedNewTodo: NodeJS.Timeout;
+
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -16,7 +18,13 @@ export function TodoList() {
   };
 
   const handleChangeNewTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo(e.target.value);
+    const newValue = e.target.value;
+
+    clearTimeout(debouncedNewTodo);
+
+    debouncedNewTodo = setTimeout(() => {
+      setNewTodo(newValue);
+    }, 100);
   };
 
   const handleCompletedTodo = (completedTodo: TodoItemType) => {
