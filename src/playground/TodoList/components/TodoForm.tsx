@@ -1,14 +1,31 @@
+import type { Dispatch } from "react";
+import type { TodosAction } from "../types";
+
 interface Props {
-  handleAddTodo: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleChangeNewTodo: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dispatchTodos: Dispatch<TodosAction>;
   newTodo: string;
 }
 
-export function TodoForm({
-  handleAddTodo,
-  handleChangeNewTodo,
-  newTodo,
-}: Props) {
+export function TodoForm({ dispatchTodos, newTodo }: Props) {
+  let debouncedNewTodo: NodeJS.Timeout;
+
+  const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    dispatchTodos({ type: "ADD_TODO", newTodo });
+    dispatchTodos({ type: "UPDATE_NEW_TODO", newTodo: "" });
+  };
+
+  const handleChangeNewTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    clearTimeout(debouncedNewTodo);
+
+    debouncedNewTodo = setTimeout(() => {
+      dispatchTodos({ type: "UPDATE_NEW_TODO", newTodo: newValue });
+    }, 100);
+  };
+
   return (
     <form onSubmit={handleAddTodo}>
       <label>

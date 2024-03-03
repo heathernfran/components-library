@@ -3,6 +3,7 @@ import type { TodosAction, TodosState } from "./types";
 
 export const initialState: TodosState = {
   allTodos: [],
+  newTodo: "",
 };
 
 export function todosReducer(state: TodosState, action: TodosAction) {
@@ -44,6 +45,13 @@ export function todosReducer(state: TodosState, action: TodosAction) {
       return {
         ...state,
         allTodos: remainingTodos,
+      };
+    }
+    case "UPDATE_NEW_TODO": {
+      const nextNewTodo = action.newTodo;
+      return {
+        ...state,
+        newTodo: nextNewTodo,
       };
     }
     default: {

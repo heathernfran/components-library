@@ -1,20 +1,27 @@
-import type { TodoItem as TodoItemType } from "./../types";
+import type { Dispatch } from "react";
+import type { TodoItem as TodoItemType, TodosAction } from "./../types";
 
 interface Props {
-  handleCompletedTodo: (todo: TodoItemType) => void;
-  handleDeleteTodo: (id: string) => void;
+  dispatchTodos: Dispatch<TodosAction>;
   id: string;
   isComplete: boolean;
   description: string;
 }
 
 export function TodoItem({
-  handleCompletedTodo,
-  handleDeleteTodo,
+  dispatchTodos,
   id,
   isComplete,
   description,
 }: Props) {
+  const handleCompletedTodo = (completedTodo: TodoItemType) => {
+    dispatchTodos({ type: "COMPLETED_TODO", completedTodo });
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    dispatchTodos({ type: "DELETE_TODO", id });
+  };
+
   return (
     <li>
       <input

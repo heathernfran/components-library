@@ -6,6 +6,7 @@ export interface TodoItem {
 
 export type TodosState = {
   allTodos: TodoItem[];
+  newTodo: string;
 };
 
 interface AddTodoAction {
@@ -20,7 +21,12 @@ interface DeleteTodoAction {
   type: "DELETE_TODO";
   id: string;
 }
+interface UpdateNewTodo {
+  type: "UPDATE_NEW_TODO";
+  newTodo: string;
+}
 export type TodosAction =
   | AddTodoAction
   | CompletedTodoAction
-  | DeleteTodoAction;
+  | DeleteTodoAction
+  | UpdateNewTodo;
