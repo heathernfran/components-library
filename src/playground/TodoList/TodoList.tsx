@@ -40,6 +40,11 @@ export function TodoList() {
     }
   };
 
+  const handleDeleteTodo = (id: string) => {
+    const remainingTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(remainingTodos);
+  };
+
   return (
     <div>
       <h1>Todo List</h1>
@@ -54,6 +59,7 @@ export function TodoList() {
             <TodoItem
               key={todo.id}
               handleCompletedTodo={handleCompletedTodo}
+              handleDeleteTodo={handleDeleteTodo}
               {...todo}
             />
           ))}
