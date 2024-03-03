@@ -1,25 +1,18 @@
-import { useState } from "react";
-import { v4 as uuidV4 } from "uuid";
+import { useReducer, useState } from "react";
 import { TodoForm } from "./components/TodoForm";
 import { TodoItem } from "./components/TodoItem";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import { todosReducer } from "./reducer";
 import type { TodoItem as TodoItemType } from "./types";
 
 export function TodoList() {
-  const [todos, setTodos] = useLocalStorage<TodoItemType[]>("todos", []);
+  const [todos, dispatchTodos] = useReducer(todosReducer, [] as TodoItemType[]);
   const [newTodo, setNewTodo] = useState("");
 
   const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newTodoObject = {
-      id: uuidV4(),
-      isComplete: false,
-      description: newTodo,
-    };
-
+    dispatchTodos({ type: "ADD_TODO", newTodo });
     setNewTodo("");
-    setTodos((prevState) => [...prevState, newTodoObject]);
   };
 
   const handleChangeNewTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,22 +20,11 @@ export function TodoList() {
   };
 
   const handleCompletedTodo = (completedTodo: TodoItemType) => {
-    if (completedTodo.isComplete) {
-      const remainingTodos = todos.filter(
-        (todo) => todo.id !== completedTodo.id
-      );
-      setTodos([...remainingTodos, completedTodo]);
-    } else {
-      const allTodos = todos.map((todo) =>
-        todo.id === completedTodo.id ? completedTodo : todo
-      );
-      setTodos(allTodos);
-    }
+    dispatchTodos({ type: "COMPLETED_TODO", completedTodo });
   };
 
   const handleDeleteTodo = (id: string) => {
-    const remainingTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(remainingTodos);
+    dispatchTodos({ type: "DELETE_TODO", id });
   };
 
   return (
