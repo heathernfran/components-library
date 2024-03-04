@@ -1,14 +1,13 @@
-import type { Dispatch } from "react";
-import type { BookType, FavouriteBooksAction, ResultBookType } from "../types";
+import { useFavouriteBooksContext } from "../hooks";
+import type { BookType } from "../types";
 import { ResultBook } from "./ResultBook";
 
-export function Results({
-  dispatch,
-  results,
-}: {
-  dispatch: Dispatch<FavouriteBooksAction>;
-  results: ResultBookType[];
-}) {
+export function Results() {
+  const {
+    state: { results },
+    dispatch,
+  } = useFavouriteBooksContext();
+
   if (results.length === 0) return <h2>No books to display</h2>;
 
   const onAddToFavourites = (book: BookType) => {

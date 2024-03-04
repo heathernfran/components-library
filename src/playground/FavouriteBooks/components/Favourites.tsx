@@ -1,14 +1,12 @@
-import type { Dispatch } from "react";
-import type { BookType, FavouriteBooksAction } from "../types";
+import { useFavouriteBooksContext } from "../hooks";
 import { FavouriteBook } from "./FavouriteBook";
 
-export function Favourites({
-  dispatch,
-  favourites,
-}: {
-  dispatch: Dispatch<FavouriteBooksAction>;
-  favourites: BookType[];
-}) {
+export function Favourites() {
+  const {
+    state: { favourites },
+    dispatch,
+  } = useFavouriteBooksContext();
+
   if (favourites.length === 0) return <h2>No favourite books added</h2>;
 
   const onDeleteFromFavourites = (id: string) => {

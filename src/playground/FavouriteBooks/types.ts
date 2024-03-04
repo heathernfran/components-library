@@ -1,3 +1,5 @@
+import type { Dispatch } from "react";
+
 export type BookType = {
   id: string;
   title: string;
@@ -43,3 +45,8 @@ export type FavouriteBooksAction =
   | DeleteFavourite
   | GetBooksAction
   | UpdateSearchTerm;
+
+export type FavouriteBooksContextType = {
+  state: FavouriteBooksState;
+  dispatch: Dispatch<FavouriteBooksAction>;
+};

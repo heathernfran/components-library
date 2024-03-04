@@ -1,14 +1,14 @@
-import type { ChangeEvent, Dispatch, FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { fetchData } from "../api";
-import type { FavouriteBooksAction, ResultResponseType } from "../types";
+import { useFavouriteBooksContext } from "../hooks";
+import type { ResultResponseType } from "../types";
 
-export function Search({
-  dispatch,
-  searchTerm,
-}: {
-  dispatch: Dispatch<FavouriteBooksAction>;
-  searchTerm: string;
-}) {
+export function Search() {
+  const {
+    state: { searchTerm },
+    dispatch,
+  } = useFavouriteBooksContext();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = e.target.value;
     dispatch({ type: "UPDATE_SEARCH_TERM", searchTerm: newSearchTerm });
