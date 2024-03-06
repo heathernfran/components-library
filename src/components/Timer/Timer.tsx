@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { convertTime } from "./utilities";
 
 interface Props {
   startTime?: number;
@@ -31,9 +32,14 @@ export function Timer({ startTime = 30 }: Props) {
     setSeconds(startTime);
   };
 
+  const renderFormatTime = () => {
+    const { hours, minutes, seconds: remainingSeconds } = convertTime(seconds);
+    return `${hours}:${minutes}:${remainingSeconds}`;
+  };
+
   return (
     <>
-      <span>Time remaining: {seconds}</span>
+      <span>Time remaining: {renderFormatTime()}</span>
       <div>
         <button onClick={startTimer}>Start</button>
         <button onClick={pauseTimer}>Pause</button>
